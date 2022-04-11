@@ -1,0 +1,81 @@
+
+
+
+                            functions
+
+
+1) add user -- add new user 
+
+2) login --login user    (login authenticat korbo cookie er maddome. jwt use korbo)   
+
+3) delete user
+
+4) edit user
+
+NOte:  ai aplication user nije singup korte parbe na. Only admin account create and remove korte parve.
+
+
+
+                            conversation related functions (controller er jonno)
+
+1) conversation goli inbox page a niye asar jonno   --- getConversation -get logedin users conversation
+
+2) bam paser kono conversation er sate chat korte chaile take inbox a niye aste hobe  ---getMessage -get message of a conversation
+
+3) Send message er jonno --sendMessage -send new conversation 
+
+4) New conversation button thakbe bame, chaile user noton kawke chat a invite korte pare   --addConversation -add new conversation
+
+5) user role er maddome user tar conversation delete korte parve       --deleteConversation -delete new conversation
+
+
+
+** 404 not found ---er jonno middleware/common er modde errorHandler.js er modde common error thakbe. 
+
+
+1) first we work for error page. we need to complete all errorHandler.js
+
+
+
+
+                                project sturcture
+        
+*** first app.js er modde sob kico akbare implement kora ja ja amader project jonno lagbe
+*** errorHandler.js(middleware/common/errorHandler.js) er modde 404 and  common error gula implement korte hobe, atai 2nd kaj
+*** 3rd dcoratHtmlResponse.js(middleware/common/decoratHtmlResponse.js) ai middleware ta create korbo. ai middleware ta potita router.get er sate bosbe. moloto atar kaj title ta k pass kora, tahole amader alada kore controller a title dite hobe na
+
+0)first app.js er modde akbare aksate ja ja poyojon sob kico impot kore nici
+
+1) router: 3 ta router niye kaj korbo. 1)loginRouter 2)userRouter 3) inboxRouter and then create similar controller
+
+2) amra potibar res.render er maddome title ta ke pass kori, ai title ta sob page er jonno common, tai amra middleware/common er modde defaultHtmlDecoration.js create kore middleware hisabe router a pass kore divo
+
+3) important: amra ai project a ajax use kore rest api create korbo
+
+Note: collection a amra " user " name kono model create korbo na, amra use korbo people name. coz onek hosting provider user name kono file upload korte chay na
+
+4) amra multer use korbo pic upload korar jonno,
+
+5) multer ta thakbe middleware/users/avatarUpload.js a sob functionality hobe multer er
+ multer er structure:  
+
+    const upload = uploader{
+        "folder name",             // public er modde sub folder hisabe create hobe. akane upload document save takbe
+        ["kon kon file allow korbo"],
+        1000000,                            // 1mb ; amra koto toko file size upload korbo
+        "error message ta ki seta dite hobe"
+    };
+
+    upload.any()(req,res,(err) =>{
+        ......                              //upload.any() akta function, ake call korte hobe tai upload.any()() hoby, 
+    })                                            upload.any maddome amra error handle korbo. 
+upore je uploader function ta call korlam, seta akhono amra banai nai, tai uploader amader akon banate hobe, er jonno "utilitis" folder create korbo. er modde singleUploader.js create korbo.
+    
+
+Note: singleUploader.js file er code multer provide kore,
+
+6) tarpor middleware/users/avatarUpload ta ke userRouter.js a import kore post method hisabe use korbo; akane akta kotha, router.post('/',avatarUpload,errorMiddleware) aibabei serial a bosate hobe. errorMiddleware ta avatarUpload er age boste parve na.
+
+7) userValidator.js  =>:: middleware/users/userValidator.js file er modde amra validationResult taw implement korbo. coz amra error middleware ta avatarUpload er pore disi, jodio age dewar kotha, fole user info validation chara save hoye jabe, jeta amra chai na, tai validation result er modde bole divo jodi user info error hoy pic ta delete kore dite
+
+
